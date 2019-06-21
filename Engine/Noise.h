@@ -13,7 +13,7 @@ public:
 		int amplitude = int(ampl);
 		return InterpolatedNoise(x * float(frequency)) * float(amplitude);
 	}
-	static float PerlinNoise_1D(float x, int nOctaves, float ampl) // 1 octave!
+	static float PerlinNoiseWithOctaves_1D(float x, int nOctaves, float ampl)
 	{
 		float total = 0.0f;
 		float n = nOctaves - 1;
