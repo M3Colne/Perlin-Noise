@@ -146,6 +146,7 @@
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="Mouse.h" />
+    <ClInclude Include="Noise.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Vec2.h" />
   </ItemGroup>
