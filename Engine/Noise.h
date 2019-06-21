@@ -16,9 +16,9 @@ public:
 	static float PerlinNoiseWithOctaves_1D(float x, int nOctaves, float ampl)
 	{
 		float total = 0.0f;
-		float n = nOctaves - 1;
+		float n = nOctaves;
 
-		for (int i = 0; i < n; i++)
+		for (int i = 1; i <= n; i++)
 		{
 			float frequency = 2 * i;
 			float amplitude = ampl;

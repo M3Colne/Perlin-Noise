@@ -42,14 +42,10 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-	float yoff = 0.0f;
-	for (int j = 0; j < Graphics::ScreenHeight; j++, yoff += inc)
+	float xoff = 0.0f;
+	for (int i = 0; i < Graphics::ScreenWidth; i++, xoff += inc)
 	{
-		float xoff = 0.0f;
-		for (int i = 0; i < Graphics::ScreenWidth; i++, xoff += inc)
-		{
-			int r = noise.PerlinNoise_2D(xoff, yoff, 64, 127.5f);
-			gfx.PutPixel(i, j, r, r, r);
-		}
+		int j = noise.PerlinNoiseWithOctaves_1D(xoff, 6, 127.5f);
+		gfx.PutPixel(i, j, 255,255,255);
 	}
 }
