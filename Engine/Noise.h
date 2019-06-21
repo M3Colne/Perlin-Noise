@@ -13,13 +13,12 @@ public:
 		int amplitude = int(ampl);
 		return InterpolatedNoise(x * float(frequency)) * float(amplitude);
 	}
-	//static float PerlinNoise_2D(float x, float y, float freq, float ampl) // 1 octave!
-	//{
-	//	int frequency = int(freq);
-	//	int amplitude = int(ampl);
-
-	//	return InterpolatedNoise(x * frequency, y * frequency) * amplitude;
-	//}
+	static float PerlinNoise_2D(float x, float y, float freq, float ampl) // 1 octave!
+	{
+		int frequency = int(freq);
+		int amplitude = int(ampl);
+		return InterpolatedNoise(x * frequency, y * frequency) * amplitude;
+	}
 
 	float map(float value, float minA, float maxA, float minB, float maxB)
 	{
@@ -32,23 +31,23 @@ private:
 		x = (x << 13) ^ x;
 		return (1.0f - ((x * (x * x * 15731 + 789221) + 1376312589)) / 1073741824);
 	}
-	/*static float IntNoise(int x, int y)
+	static float IntNoise(int x, int y)
 	{
 		int n = x + y * 57;
 		n = (n << 13) ^ n;
 		return (1.0f - ((n * (n * n * 15731 + 789221) + 1376312589)) / 1073741824);
-	}*/
+	}
 	static float SmoothNoise(float x)
 	{
 		return IntNoise(int(x)) / 2 + IntNoise(int(x) - 1) / 4 + IntNoise(int(x) + 1) / 4;
 	}
-	/*static float SmoothNoise(float x, float y)
+	static float SmoothNoise(float x, float y)
 	{
 		float corners = (IntNoise(x - 1, y - 1) + IntNoise(x + 1, y - 1) + IntNoise(x - 1, y + 1) + IntNoise(x + 1, y + 1)) / 16;
 		float sides = (IntNoise(x - 1, y) + IntNoise(x + 1, y) + IntNoise(x, y - 1) + IntNoise(x, y + 1)) / 8;
 		float center = IntNoise(x, y) / 4;
 		return corners + sides + center;
-	}*/
+	}
 
 	//Interpolation
 	static float Cosine_Interpolate(float a, float b, float x)
@@ -68,7 +67,7 @@ private:
 
 		return Cosine_Interpolate(v1, v2, fractional_X);
 	}
-	/*static float InterpolatedNoise(float x, float y)
+	static float InterpolatedNoise(float x, float y)
 	{
 		int integer_X = int(x);
 		float fractional_X = x - integer_X;
@@ -85,5 +84,5 @@ private:
 		float i2 = Cosine_Interpolate(v3, v4, fractional_X);
 
 		return Cosine_Interpolate(i1, i2, fractional_Y);
-	}*/
+	}
 };
