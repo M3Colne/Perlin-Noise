@@ -42,4 +42,7 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
+	for (int i = 0; i < Graphics::ScreenWidth; i++, xoff += inc)
+	{
+	}
 }

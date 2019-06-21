@@ -22,6 +22,7 @@
 
 #include "Keyboard.h"
 #include "Mouse.h"
+#include "Noise.h"
 #include "Graphics.h"
 
 class Game
@@ -42,5 +43,6 @@ private:
 	Graphics gfx;
 	/********************************/
 	/*  User Variables              */
+	Noise noise;
 	/********************************/
 };
