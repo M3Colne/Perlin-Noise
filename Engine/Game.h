@@ -44,6 +44,7 @@ private:
 	/********************************/
 	/*  User Variables              */
 	Noise noise;
-	float inc = 0.0001f;
+	float inc = 0.001f;
+	float start = 0.0f;
 	/********************************/
 };

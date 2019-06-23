@@ -7,22 +7,73 @@ class Noise
 {
 public:
 	//Perlin Noise
-	static float PerlinNoise_1D(float x, float freq, float ampl) // 1 octave!
+	static float PerlinNoise_1D(float x) //This is a default perlin noise
 	{
-		int frequency = int(freq);
-		int amplitude = int(ampl);
-		return InterpolatedNoise(x * float(frequency)) * float(amplitude);
-	}
-	static float PerlinNoise_2D(float x, float y, float freq, float ampl) // 1 octave!
-	{
-		int frequency = int(freq);
-		int amplitude = int(ampl);
-		return InterpolatedNoise(x * frequency, y * frequency) * amplitude;
-	}
+		float total = 0.0f;
+		float denominator = 0.0f;
+		float freq = 1.0f;
+		float ampl = 256.0f;
 
-	float map(float value, float minA, float maxA, float minB, float maxB)
+		for (int i = 0; i < 4; i++)
+		{
+			total += InterpolatedNoise(x * freq) * ampl;
+			denominator += 2 * ampl;
+			freq *= 2;
+			ampl /= 2;
+		}
+
+		//It gives values between 0 and a big number
+
+		return total / denominator; //Now it gives values between 0 and 1
+	}
+	static float PerlinNoise_2D(float x, float y) //This is a default perlin noise
 	{
-		return (1 - ((value - minA) / (maxA - minA))) * minB + ((value - minA) / (maxA - minA)) * maxB;
+		float total = 0.0f;
+		float denominator = 0.0f;
+		float freq = 1.0f;
+		float ampl = 256.0f;
+
+		for (int i = 0; i < 4; i++)
+		{
+			total += InterpolatedNoise(x * freq, y * freq) * ampl;
+			denominator += 2 * ampl;
+			freq *= 2;
+			ampl /= 2;
+		}
+
+		return total / denominator;
+	}
+	static float PerlinNoise_1D(float x, float freq, float ampl, int nOctaves) //This is customazible perlin noise
+	{
+		float total = 0.0f;
+		float denominator = 0.0f;
+
+		for (int i = 0; i < nOctaves; i++)
+		{
+			total += InterpolatedNoise(x * freq) * ampl;
+			denominator += 2 * ampl;
+			freq *= 2;
+			ampl /= 2;
+		}
+
+		//It gives values between 0 and a big number
+
+		return total/denominator; //Now it gives values between 0 and 1
+	}
+	static float PerlinNoise_2D(float x, float y, float freq, float ampl, int nOctaves) //This is customazible perlin noise
+	{
+		float total = 0.0f;
+		float denominator = 0.0f;
+
+		for (int i = 0; i < nOctaves; i++)
+		{
+			total += InterpolatedNoise(x * freq, y * freq) * ampl;
+			denominator += 2 * ampl;
+			freq *= 2;
+			ampl /= 2;
+		}
+
+		return total/denominator;
 	}
 private:
 	//Noise
@@ -37,11 +88,11 @@ private:
 		n = (n << 13) ^ n;
 		return (1.0f - ((n * (n * n * 15731 + 789221) + 1376312589)) / 1073741824);
 	}
-	static float SmoothNoise(float x)
+	static float SmoothNoise(int x)
 	{
-		return IntNoise(int(x)) / 2 + IntNoise(int(x) - 1) / 4 + IntNoise(int(x) + 1) / 4;
+		return IntNoise(x) / 2 + IntNoise(x - 1) / 4 + IntNoise(x + 1) / 4;
 	}
-	static float SmoothNoise(float x, float y)
+	static float SmoothNoise(int x, int y)
 	{
 		float corners = (IntNoise(x - 1, y - 1) + IntNoise(x + 1, y - 1) + IntNoise(x - 1, y + 1) + IntNoise(x + 1, y + 1)) / 16;
 		float sides = (IntNoise(x - 1, y) + IntNoise(x + 1, y) + IntNoise(x, y - 1) + IntNoise(x, y + 1)) / 8;
@@ -62,8 +113,8 @@ private:
 		int integer_X = int(x);
 		float fractional_X = x - integer_X;
 
-		float v1 = SmoothNoise(float(integer_X));
-		float v2 = SmoothNoise(float(integer_X + 1));
+		float v1 = SmoothNoise(integer_X);
+		float v2 = SmoothNoise(integer_X + 1);
 
 		return Cosine_Interpolate(v1, v2, fractional_X);
 	}
