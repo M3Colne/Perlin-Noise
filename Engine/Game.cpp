@@ -30,24 +30,62 @@ Game::Game( MainWindow& wnd )
 
 void Game::Go()
 {
-	gfx.BeginFrame();	
+	gfx.BeginFrame();
 	UpdateModel();
 	ComposeFrame();
 	gfx.EndFrame();
 }
 
+void DrawCell(float x, float y, float width, float height, int c, Graphics& gfx)
+{
+	for (int Y = y; Y < y + height; Y++)
+	{
+		for (int X = x; X < x + width; X++)
+		{
+			gfx.PutPixel(X, Y, c,c,c);
+		}
+	}
+}
+
 void Game::UpdateModel()
 {
+	if (wnd.kbd.KeyIsPressed(VK_SPACE))
+	{
+		inc += 0.015625f;
+	}
+	if (wnd.kbd.KeyIsPressed('W'))
+	{
+		ANGLE += 0.015625f;
+	}
+	if (wnd.kbd.KeyIsPressed('S'))
+	{
+		ANGLE -= 0.015625f;
+	}
+
+	float yoff = 0.0f;
+	for (int j = 0; j < v.GetRows(); j++, yoff += inc)
+	{
+		float xoff = 0.0f;
+		for (int i = 0; i < v.GetCollumns(); i++, xoff += inc)
+		{
+			//int c = noise.PerlinNoise_2D(xoff, yoff) * 255;
+
+			//DrawCell(i*v.patch[0].Dimension, j*v.patch[0].Dimension, v.patch[0].Dimension, v.patch[0].Dimension, c, gfx);
+			float angle = noise.PerlinNoise_3D(xoff, yoff, time) * 6.2831853f;
+			assert(angle > 0.001f);
+			float vLenght = 10.0f;
+
+			v.Update(Vec2(cos(angle) * vLenght, sin(angle) * vLenght), i + j * v.GetCollumns());
+		}
+	}
+
+	time += 0.5f;
 }
 
 void Game::ComposeFrame()
-{
-	float xoff = start;
-	for (int i = 0; i < Graphics::ScreenWidth; i++, xoff += inc)
-	{
-		int j = int(noise.PerlinNoise_1D(xoff) * 799.0f);
-		gfx.PutPixel(i, j, 255, 255, 255);
-	}
-
-	start += 0.05f;
+{	
+	gfx.DrawLine(Vec2(Graphics::ScreenWidth / 2, Graphics::ScreenHeight / 2), 
+		Vec2((Graphics::ScreenWidth/2) + cos(ANGLE)* (-1 + Graphics::ScreenWidth/2),
+		(Graphics::ScreenHeight / 2) + sin(ANGLE)* (-1 + Graphics::ScreenHeight / 2)), Color(0, 255, 0));
+	v.DrawVectorsWithSameLenghts(gfx);
 }

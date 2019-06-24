@@ -24,6 +24,7 @@
 #include "Mouse.h"
 #include "Noise.h"
 #include "Graphics.h"
+#include "VectorField.h"
 
 class Game
 {
@@ -44,7 +45,9 @@ private:
 	/********************************/
 	/*  User Variables              */
 	Noise noise;
-	float inc = 0.001f;
-	float start = 0.0f;
+	VectorField v;
+	float inc = 0.0f;
+	float time = 0.0f;
+	float ANGLE = 0.0f;
 	/********************************/
 };

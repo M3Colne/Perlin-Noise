@@ -149,6 +149,7 @@
     <ClInclude Include="Noise.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Vec2.h" />
+    <ClInclude Include="VectorField.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXErr.cpp" />

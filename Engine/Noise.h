@@ -1,4 +1,5 @@
 //http://www.arendpeter.com/Perlin_Noise.html
+//https://www.youtube.com/watch?v=Aga0TBJkchM
 #pragma once
 
 #include <cmath>
@@ -74,6 +75,20 @@ public:
 		}
 
 		return total/denominator;
+	}
+	static float PerlinNoise_3D(float x, float y, float z)
+	{
+		float AB = PerlinNoise_2D(x, y);
+		float BC = PerlinNoise_2D(y, z);
+		float AC = PerlinNoise_2D(x, z);
+
+		float BA = PerlinNoise_2D(y, x);
+		float CB = PerlinNoise_2D(z, y);
+		float CA = PerlinNoise_2D(z, x);
+
+		float ABC = AB + BC + AC + BA + CB + CA;
+
+		return ABC / 6.0f;
 	}
 private:
 	//Noise
